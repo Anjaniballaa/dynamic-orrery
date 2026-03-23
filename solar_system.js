@@ -66,38 +66,38 @@ document.body.appendChild(renderer.domElement);
 //texture loader
 const textureLoader = new THREE.TextureLoader();
 
-const sunTexture = textureLoader.load("../image/8k_sun.jpg");
-const mercuryTexture = textureLoader.load("../image/8k_mercury.jpg");
-const venusTexture = textureLoader.load("../image/8k_venus_surface.jpg");
-const earthTexture = textureLoader.load("../image/earth.jpg");
-const marsTexture = textureLoader.load("../image/8k_mars.jpg");
-const jupiterTexture = textureLoader.load("../image/8k_jupiter.jpg");
-const saturnTexture = textureLoader.load("../image/8k_saturn.jpg");
-const uranusTexture = textureLoader.load("../image/2k_uranus.jpg");
-const neptuneTexture = textureLoader.load("../image/2k_neptune.jpg");
-const plutoTexture = textureLoader.load("../image/pluto.jpg");
-const saturnRingTexture = textureLoader.load("../image/saturn_ring.png");
-const uranusRingTexture = textureLoader.load("../image/uranus_ring.png");
-const earth_moonTexture = textureLoader.load("../image/8k_moon.jpg");
-const mars_PhobosTexture = textureLoader.load("../image/phobos_mars1.jpg");
-const mars_DeimosTexture = textureLoader.load("../image/Deimos_mars2.jpg");
-const jupiter_GanymedeTexture = textureLoader.load("../image/Jupiter_Ganymede.jpg");
-const jupiter_CallistaTexture = textureLoader.load("../image/Jupiter_Callisto.jpg");
-const jupiter_IOTexture = textureLoader.load("../image/Jupiter_IO.webp");
-const jupiter_EuropaTexture = textureLoader.load("../image/Jupiter_Europa.jpg");
-const saturn_TitanTexture = textureLoader.load("../image/Saturn_titan.jpg");
-const saturn_EnceladusTexture = textureLoader.load("../image/Saturn_Enceladus.jpg");
-const Uranus_MirandaTexture = textureLoader.load("../image/Uranus_Miranda.jpg");
-const Uranus_ArielTexture = textureLoader.load("../image/Uranus_Ariel.jpg");
-const Neptune_TritonTexture = textureLoader.load("../image/Neptune_triton.jpg");
-const Neptune_GalateaTexture = textureLoader.load("../image/Neptune_Galatea.jpg");
-const pluto_charonTexture = textureLoader.load("../image/pluto_CharonTexture.jpg");
+const sunTexture = textureLoader.load("image/8k_sun.jpg");
+const mercuryTexture = textureLoader.load("image/8k_mercury.jpg");
+const venusTexture = textureLoader.load("image/8k_venus_surface.jpg");
+const earthTexture = textureLoader.load("image/earth.jpg");
+const marsTexture = textureLoader.load("image/8k_mars.jpg");
+const jupiterTexture = textureLoader.load("image/8k_jupiter.jpg");
+const saturnTexture = textureLoader.load("image/8k_saturn.jpg");
+const uranusTexture = textureLoader.load("image/2k_uranus.jpg");
+const neptuneTexture = textureLoader.load("image/2k_neptune.jpg");
+const plutoTexture = textureLoader.load("image/pluto.jpg");
+const saturnRingTexture = textureLoader.load("image/saturn_ring.png");
+const uranusRingTexture = textureLoader.load("image/uranus_ring.png");
+const earth_moonTexture = textureLoader.load("image/8k_moon.jpg");
+const mars_PhobosTexture = textureLoader.load("image/phobos_mars1.jpg");
+const mars_DeimosTexture = textureLoader.load("image/Deimos_mars2.jpg");
+const jupiter_GanymedeTexture = textureLoader.load("image/Jupiter_Ganymede.jpg");
+const jupiter_CallistaTexture = textureLoader.load("image/Jupiter_Callisto.jpg");
+const jupiter_IOTexture = textureLoader.load("image/Jupiter_IO.webp");
+const jupiter_EuropaTexture = textureLoader.load("image/Jupiter_Europa.jpg");
+const saturn_TitanTexture = textureLoader.load("image/Saturn_titan.jpg");
+const saturn_EnceladusTexture = textureLoader.load("image/Saturn_Enceladus.jpg");
+const Uranus_MirandaTexture = textureLoader.load("image/Uranus_Miranda.jpg");
+const Uranus_ArielTexture = textureLoader.load("image/Uranus_Ariel.jpg");
+const Neptune_TritonTexture = textureLoader.load("image/Neptune_triton.jpg");
+const Neptune_GalateaTexture = textureLoader.load("image/Neptune_Galatea.jpg");
+const pluto_charonTexture = textureLoader.load("image/pluto_CharonTexture.jpg");
 
 
 const scene = new THREE.Scene();
 
 
-const backgroundTexture = textureLoader.load("../media/stars-galaxy-3840x2560-10307.jpg");
+const backgroundTexture = textureLoader.load("media/stars-galaxy-3840x2560-10307.jpg");
 scene.background = backgroundTexture;
 
 
