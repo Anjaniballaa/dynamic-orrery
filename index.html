@@ -1,215 +1,912 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <link href="media/interstellar logo.jpg" type="../image/x-icon" rel="icon">
+    <link href="media/interstellar logo.jpg" type="image/x-icon" rel="icon">
     <meta name="description" content="Home page to Interstellar Website">
     <meta name="author" content="Rana Nasser">
-    <meta name="keywords"
-        content="Space, Astronomy, 3D Solar System, Planets, Near-Earth Asteroids 'NEA', Near-Earth Comets 'NEC', Potentially Hazardous Asteroids 'PHA', NASA, Dynamic Orrery Web App, Celestial Bodies, Keplerian parameters">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-        rel="stylesheet">
-    <title>Home page - Interstellar</title>
-    <link rel="stylesheet" href="home.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:ital,wght@0,200;0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Interstellar — Explore Space</title>
+    <style>
+        :root {
+            --accent: #4fc3f7;
+            --accent2: #ff9800;
+            --glass: rgba(8, 12, 24, 0.72);
+            --border: rgba(255,255,255,0.07);
+        }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Exo 2', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ══ STAR CANVAS ══ */
+        #star-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ══ NAV ══ */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 64px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 48px;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 5px;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 36px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 12px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            transition: color 0.2s;
+            font-weight: 300;
+        }
+        .nav-links a:hover { color: #fff; }
+
+        /* ══ HERO ══ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 1;
+            padding: 0 24px;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('media/home3.jpg') center center / cover no-repeat;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(79,195,247,0.08);
+            border: 1px solid rgba(79,195,247,0.2);
+            border-radius: 30px;
+            padding: 6px 16px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 32px;
+            animation: fadeUp 0.8s ease both;
+        }
+
+        .hero-badge-dot {
+            width: 6px; height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%,100% { opacity:1; transform:scale(1); }
+            50%      { opacity:0.4; transform:scale(1.5); }
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(48px, 10vw, 120px);
+            font-weight: 900;
+            letter-spacing: 8px;
+            line-height: 1;
+            text-transform: uppercase;
+            background: linear-gradient(180deg, #ffffff 40%, rgba(255,255,255,0.3) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            animation: fadeUp 0.9s ease 0.1s both;
+        }
+
+        .hero-title-sub {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(16px, 3vw, 32px);
+            font-weight: 400;
+            letter-spacing: 12px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            animation: fadeUp 0.9s ease 0.2s both;
+        }
+
+        .hero-desc {
+            max-width: 540px;
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 52px;
+            animation: fadeUp 0.9s ease 0.3s both;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeUp 0.9s ease 0.4s both;
+        }
+
+        .btn-primary {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 16px 40px;
+            background: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0);
+            transition: background 0.2s;
+        }
+        .btn-primary:hover::after { background: rgba(255,255,255,0.15); }
+
+        .btn-outline {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 16px 40px;
+            background: transparent;
+            color: rgba(255,255,255,0.7);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.25s;
+        }
+        .btn-outline:hover {
+            border-color: rgba(255,255,255,0.4);
+            color: #fff;
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255,255,255,0.25);
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: fadeUp 1s ease 0.8s both;
+        }
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+            animation: scrollLine 2s ease infinite;
+        }
+        @keyframes scrollLine {
+            0%   { transform: scaleY(0); transform-origin: top; }
+            50%  { transform: scaleY(1); transform-origin: top; }
+            51%  { transform: scaleY(1); transform-origin: bottom; }
+            100% { transform: scaleY(0); transform-origin: bottom; }
+        }
+
+        @keyframes fadeUp {
+            from { opacity:0; transform:translateY(24px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+
+        /* ══ SECTION BASE ══ */
+        section {
+            position: relative;
+            z-index: 1;
+            padding: 100px 48px;
+        }
+
+        .section-label {
+            font-size: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(28px, 4vw, 48px);
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+
+        .section-divider {
+            width: 48px; height: 2px;
+            background: var(--accent);
+            margin-bottom: 48px;
+        }
+
+        /* ══ ABOUT ══ */
+        #about {
+            background: url('media/galaxy-night-landscape.jpg') center/cover no-repeat;
+            background-attachment: fixed;
+        }
+        #about::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.78);
+        }
+        .about-inner {
+            position: relative;
+            max-width: 1100px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+        .about-text p {
+            font-size: 15px;
+            line-height: 1.9;
+            color: rgba(255,255,255,0.55);
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+        .about-text p strong {
+            color: #fff;
+            font-weight: 600;
+        }
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .stat-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+        }
+        .stat-num {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .stat-desc {
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            margin-top: 6px;
+        }
+
+        /* ══ HOW TO USE ══ */
+        #help {
+            background: rgba(0,0,0,0.95);
+        }
+        .help-inner {
+            max-width: 1100px;
+            margin: auto;
+        }
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .step-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 32px 28px;
+            transition: border-color 0.3s;
+        }
+        .step-card:hover { border-color: rgba(79,195,247,0.25); }
+        .step-num {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 36px;
+            font-weight: 900;
+            color: rgba(79,195,247,0.15);
+            margin-bottom: 16px;
+            line-height: 1;
+        }
+        .step-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        .step-desc {
+            font-size: 13px;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.45);
+            font-weight: 300;
+        }
+
+        .contact-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .contact-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 28px 32px;
+        }
+        .contact-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            letter-spacing: 2px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.55);
+        }
+        .contact-item i { color: var(--accent); width: 16px; }
+
+        /* ══ TEAM ══ */
+        #team1 {
+            background: #000;
+            overflow: hidden;
+        }
+        .team-inner {
+            max-width: 1100px;
+            margin: auto;
+            position: relative;
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 0;
+        }
+        .member-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 36px 24px;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .member-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .member-card:hover::before { opacity: 1; }
+        .member-card:hover { border-color: rgba(79,195,247,0.15); }
+        .member-avatar {
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            background: rgba(79,195,247,0.1);
+            border: 1px solid rgba(79,195,247,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .member-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            letter-spacing: 2px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .member-role {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+        }
+        .team-footer-text {
+            text-align: center;
+            margin-top: 48px;
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.2);
+        }
+
+        /* ══ FOOTER ══ */
+        footer {
+            background: rgba(0,0,0,0.97);
+            border-top: 1px solid var(--border);
+            padding: 64px 48px 32px;
+            position: relative;
+            z-index: 1;
+        }
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            gap: 48px;
+            max-width: 1100px;
+            margin: 0 auto 48px;
+        }
+        .footer-brand p {
+            font-size: 13px;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.35);
+            margin-top: 16px;
+            font-weight: 300;
+        }
+        .footer-col h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 20px;
+        }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li a {
+            font-size: 13px;
+            color: rgba(255,255,255,0.3);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-col ul li a:hover { color: rgba(255,255,255,0.7); }
+
+        .footer-bottom {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+        }
+        .footer-bottom p {
+            font-size: 12px;
+            color: rgba(255,255,255,0.2);
+            letter-spacing: 1px;
+        }
+        .social-links { display: flex; gap: 16px; }
+        .social-links a {
+            width: 36px; height: 36px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.35);
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .social-links a:hover {
+            border-color: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+
+        /* Newsletter */
+        .newsletter-row {
+            max-width: 1100px;
+            margin: 0 auto 48px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 32px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 32px;
+        }
+        .newsletter-text h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            letter-spacing: 2px;
+            color: var(--accent2);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .newsletter-text p {
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+        }
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .newsletter-form input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            color: #fff;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 14px;
+            padding: 12px 18px;
+            border-radius: 8px;
+            width: 260px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .newsletter-form input:focus { border-color: rgba(255,255,255,0.2); }
+        .newsletter-form input::placeholder { color: rgba(255,255,255,0.2); }
+        .newsletter-form button {
+            background: var(--accent2);
+            color: #000;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+        }
+        .newsletter-form button:hover { opacity: 0.85; }
+
+        /* ══ RESPONSIVE ══ */
+        @media (max-width: 900px) {
+            nav { padding: 0 20px; }
+            section { padding: 80px 24px; }
+            .about-inner { grid-template-columns: 1fr; gap: 40px; }
+            .steps-grid { grid-template-columns: 1fr; }
+            .contact-row { grid-template-columns: 1fr; }
+            .team-grid { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+            .newsletter-row { flex-direction: column; align-items: flex-start; }
+            .footer-bottom { flex-direction: column; gap: 16px; }
+        }
+    </style>
 </head>
-
 <body>
 
-    <div class="home">
-        <header>
-            <nav>
-                <a href="#about"><button class="about">ABOUT</button></a>
-                <a href="#help"><button class="help">HELP</button></a>
-                <a href="#team1"><button class="team">TEAM</button></a>
+<!-- Animated star background -->
+<canvas id="star-canvas"></canvas>
 
-            </nav>
-        </header>
+<!-- NAV -->
+<nav>
+    <a class="nav-logo" href="#">INTERSTELLAR</a>
+    <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#help">Help</a></li>
+        <li><a href="#team1">Team</a></li>
+    </ul>
+</nav>
 
-        <main>
-            <h1>EXPLORE SPACE</h1>
-            <div class="div1">
-                <p class="start_paragraph">Start your exploration in space, navigate. <br>Discover all the wonders of
-                    the universe.</p>
-                <button class="explore_btn">Explore NOW ></button>
-            </div>
-        </main>
+<!-- ══ HERO ══ -->
+<section class="hero" id="home">
+    <div class="hero-bg"></div>
+
+    <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Live Solar System Simulation
     </div>
 
-    <div class="divv"></div>
+    <h1 class="hero-title">EXPLORE<br>SPACE</h1>
+    <p class="hero-title-sub">Interstellar</p>
 
-    <div class="gif"></div>
+    <p class="hero-desc">
+        Navigate our solar system in real-time 3D. Discover planets, asteroids,
+        and comets with accurate orbital data from NASA.
+    </p>
 
-    <div class="divv"></div>
-
-
-    <div class="aboutt">
-        <main>
-            <h2 id="about">ABOUT</h2>
-            <div class="description">
-                <p>
-                    <b> Welcome to Interstellar</b> <br> A dynamic web application that allows users to explore the
-                    wonders of
-                    our solar system in 3D and explore the planet by ex.<br>
-                    Our mission is to educate and inspire individuals about space, astronomy, and the celestial bodies
-                    that
-                    inhabit our universe.
-                </p>
-                <p>
-                    We have also developed a <strong> virtual world </strong> Unreal Engine to make exploring the
-                    planets even more immersive and
-                    realistic. With this cutting-edge technology, users can experience a lifelike journey through space,
-                    exploring planets,
-                    asteroids, and comets as if they were truly there.
-                </p>
-                <p>
-                    With an interactive orrery at the core of our platform, users can navigate through planets,
-                    asteroids,
-                    and comets, gaining insights into their characteristics and behaviors.
-                    Join us in our quest to explore the cosmos!
-                </p>
-            </div>
+    <div class="hero-btns">
+        <button class="btn-primary" onclick="window.location.href='solar_system.html'">
+            Explore Now →
+        </button>
+        <a class="btn-outline" href="#about">Learn More</a>
     </div>
 
-    <div class="divv"></div>
-    <div class="helpp" id="help">
-        <div class="row">
-            <!-- Help & How to Use Section -->
-            <div class="col-lg-6 mb-4">
-                <h2 class="mb-4">How To Use</h2>
-                <p>To explore the solar system in 3D, click on the "Explore" button. This will take you to a 3D
-                    visualization of the solar system. You can hover over the Sun and planets to view information about
-                    them. For more detailed and accurate information, click on the dropdown menu and select a planet. A
-                    new
-                    page will appear with comprehensive details about that planet. <br>
-                    If you'd like to test your knowledge, click on the "Exam" button. To dive into the virtual world of
-                    any
-                    planet, click on the "VR Planet" button for an immersive experience.</p>
-            </div>
+    <div class="hero-scroll">
+        <div class="scroll-line"></div>
+        Scroll
+    </div>
+</section>
 
-            <!-- Contact Details Section -->
-            <div class="col-lg-6">
-                <h2 class="mb-4">Help</h2>
-                <p><strong>Address:</strong> Bhimavaram, AndhraPradesh <br> <br>
-                    <strong>Phone:</strong> +91 9097349076 <br> <br>
-                    <strong>Email:</strong> contact@space.com
-                </p> <br>
+<!-- ══ ABOUT ══ -->
+<section id="about">
+    <div class="about-inner">
+        <div class="about-text">
+            <div class="section-label">About the Project</div>
+            <h2 class="section-title">What is<br>Interstellar?</h2>
+            <div class="section-divider"></div>
+            <p><strong>Interstellar</strong> is a dynamic web application that lets you explore the wonders of our solar system in immersive 3D — powered by Three.js and real NASA data.</p>
+            <p>Navigate through planets, asteroids, and comets. Gain insights into their orbital characteristics and behaviors. Test your knowledge with interactive exams.</p>
+            <p>Built by computer science students of <strong>SVECW</strong> as part of the NASA Space Apps Challenge.</p>
+        </div>
+        <div class="about-stats">
+            <div class="stat-card">
+                <div class="stat-num">9</div>
+                <div class="stat-desc">Planets</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">30+</div>
+                <div class="stat-desc">Moons</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">3D</div>
+                <div class="stat-desc">Simulation</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">NASA</div>
+                <div class="stat-desc">Live Data</div>
             </div>
         </div>
     </div>
+</section>
 
+<!-- ══ HELP ══ -->
+<section id="help">
+    <div class="help-inner">
+        <div class="section-label">How It Works</div>
+        <h2 class="section-title">Getting Started</h2>
+        <div class="section-divider"></div>
 
-    <div class="divv"></div>
-    <div class="teamm">
-        <div class="stars">
-            <div class="star" style="left: 50vw; top: 50vh; width: 3px; height: 3px;"></div>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-num">01</div>
+                <div class="step-title">Explore 3D</div>
+                <p class="step-desc">Click Explore Now to enter the 3D solar system. Hover over the Sun and planets to view live information about each body.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">02</div>
+                <div class="step-title">Select Planet</div>
+                <p class="step-desc">Use the Celestial dropdown to jump to any planet's detail page — orbital data, NASA imagery, and more.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">03</div>
+                <div class="step-title">Take the Exam</div>
+                <p class="step-desc">Test your knowledge of the solar system with our interactive quiz. Click Start Exam on any planet page.</p>
+            </div>
         </div>
-        <h2 id="team1">Start Exploring <br>Infinite Space with <br> <br><strong
-                style="font-family: 'Nasalization', sans-serif; color: orange;"> INTERSTELLAR </strong> </h2>
-        <h3 style="font-size: 45px;"> <u>Team Names: </u></h3>
-        <p>
-            <strong>
-                B.Anjani <br><br>
-                K.Abhi priya <br><br>
-                v.Rukmini<br><br>
-            </strong>
-        </p>
-        <br> <br> <br> <br> <br>
-        <b>Developed by Computer Science Students of SVECW. </b>
 
-        <img src="media/rocket4-removebg-preview-removebg-preview.png" width="600px" alt="Rocket" class="rocket">
-        <img src="media/space_man2-removebg-preview.png" width="300px" alt="space_man" class="space_man">
-        <img src="media/planet1.png" width="300px" alt="planet" class="planet">
+        <div class="contact-row">
+            <div class="contact-card">
+                <h3>Contact Us</h3>
+                <div class="contact-item"><i class="fas fa-map-marker-alt"></i> Bhimavaram, Andhra Pradesh</div>
+                <div class="contact-item"><i class="fas fa-phone"></i> +91 9097349076</div>
+                <div class="contact-item"><i class="fas fa-envelope"></i> contact@space.com</div>
+            </div>
+            <div class="contact-card">
+                <h3>Technologies</h3>
+                <div class="contact-item"><i class="fas fa-code"></i> HTML · CSS · JavaScript</div>
+                <div class="contact-item"><i class="fas fa-cube"></i> Three.js 3D Rendering</div>
+                <div class="contact-item"><i class="fas fa-satellite"></i> NASA Open APIs</div>
+            </div>
+        </div>
     </div>
+</section>
+
+<!-- ══ TEAM ══ -->
+<section id="team1">
+    <div class="team-inner">
+        <div class="section-label">The Builders</div>
+        <h2 class="section-title">Our Team</h2>
+        <div class="section-divider"></div>
+
+        <div class="team-grid">
+            <div class="member-card">
+                <div class="member-avatar">A</div>
+                <div class="member-name">B. Anjani</div>
+                <div class="member-role">Developer</div>
+            </div>
+            <div class="member-card">
+                <div class="member-avatar">K</div>
+                <div class="member-name">K. Abhi Priya</div>
+                <div class="member-role">Developer</div>
+            </div>
+            <div class="member-card">
+                <div class="member-avatar">V</div>
+                <div class="member-name">V. Rukmini</div>
+                <div class="member-role">Developer</div>
+            </div>
+        </div>
+
+        <p class="team-footer-text">Computer Science Students · SVECW</p>
     </div>
-    <div class="divv"></div>
+</section>
 
-
-    <div class="footer">
-        <div class="stars">
-            <div class="star" style="left: 50vw; top: 50vh; width: 3px; height: 3px;"></div>
+<!-- ══ FOOTER ══ -->
+<footer>
+    <div class="newsletter-row">
+        <div class="newsletter-text">
+            <h3>Newsletter</h3>
+            <p>Get the latest updates on space exploration delivered to you.</p>
         </div>
-        <div class="footer-content">
-            <div class="footer-column">
-                <h4>Explore</h4>
-                <ul>
-                    <li><a href="#">Solar System</a></li>
-                    <li><a href="#">Planets</a></li>
-                    <li><a href="#">Moons</a></li>
-                    <li><a href="#">Asteroids</a></li>
-                    <li><a href="#">Comets</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h4>About Us</h4>
-                <ul>
-                    <li><a href="#">Mission</a></li>
-                    <li><a href="#">Team</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Press</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h4>Orrery Features</h4>
-                <ul>
-                    <li><a href="#">3D Solar System</a></li>
-                    <li><a href="#">Interactive Navigation</a></li>
-                    <li><a href="#">Real-time Data</a></li>
-                    <li><a href="#">Educational Resources</a></li>
-                    <li><a href="#">Space Exploration</a></li>
-                </ul>
-            </div>
-            <div class="footer-column"> 
-                <h4>Resources</h4>
-                <ul>
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Support</a></li>
-                    <li><a href="#">API Documentation</a></li>
-                    <li><a href="#">Events</a></li>
-                    <li><a href="#">Community</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h4>Learn More</h4>
-                <ul>
-                    <li><a href="#">Planetary Facts</a></li>
-                    <li><a href="#">Space Missions</a></li>
-                    <li><a href="#">Astronomy 101</a></li>
-                    <li><a href="#">Star Systems</a></li>
-                    <li><a href="#">Space History</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 <b style="font-family: 'Nasalization', sans-serif;">INTERSTELLAR</b> Orrery Web App | Terms &
-                Privacy</p>
-            <div class="social-links">
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
-            </div>
-        </div>
-        <div class="newsletter">
-            <h3 style="color:orange">Newsletter</h3>
-            <p>Subscribe to get the latest updates on space exploration and more!</p>
-            <form action="#">
-                <input type="email" placeholder="Enter your email" required class="email">
-                <button type="submit" class="subscribe">Subscribe</button>
-            </form>
+        <div class="newsletter-form">
+            <input type="email" id="email-input" placeholder="Enter your email address">
+            <button id="subscribe-btn">Subscribe</button>
         </div>
     </div>
 
-    <script src="home.js"></script>
+    <div class="footer-top">
+        <div class="footer-brand">
+            <div class="nav-logo" style="font-size:16px;letter-spacing:4px;">INTERSTELLAR</div>
+            <p>An interactive 3D solar system exploration platform built for curiosity, education, and wonder.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Explore</h4>
+            <ul>
+                <li><a href="#">Solar System</a></li>
+                <li><a href="#">Planets</a></li>
+                <li><a href="#">Moons</a></li>
+                <li><a href="#">Asteroids</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Features</h4>
+            <ul>
+                <li><a href="#">3D View</a></li>
+                <li><a href="#">Real-time Data</a></li>
+                <li><a href="#">NASA APOD</a></li>
+                <li><a href="#">Orbit Paths</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Learn</h4>
+            <ul>
+                <li><a href="#">Planet Facts</a></li>
+                <li><a href="#">Space Missions</a></li>
+                <li><a href="#">Astronomy 101</a></li>
+                <li><a href="#">Star Systems</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Resources</h4>
+            <ul>
+                <li><a href="#">Help Center</a></li>
+                <li><a href="#">Support</a></li>
+                <li><a href="#">Community</a></li>
+                <li><a href="#">Events</a></li>
+            </ul>
+        </div>
+    </div>
 
+    <div class="footer-bottom">
+        <p>© 2024 INTERSTELLAR Orrery Web App · Terms & Privacy</p>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+    </div>
+</footer>
+
+<script>
+// ── STAR CANVAS ──
+(function(){
+    const canvas = document.getElementById('star-canvas');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+
+    function resize(){
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    for(let i=0;i<180;i++){
+        stars.push({
+            x: Math.random()*window.innerWidth,
+            y: Math.random()*window.innerHeight,
+            r: Math.random()*1.2+0.2,
+            o: Math.random(),
+            speed: Math.random()*0.005+0.002
+        });
+    }
+
+    function draw(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        stars.forEach(s=>{
+            s.o += s.speed;
+            if(s.o>1) s.speed = -Math.abs(s.speed);
+            if(s.o<0.1) s.speed = Math.abs(s.speed);
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+            ctx.fillStyle = `rgba(255,255,255,${s.o})`;
+            ctx.fill();
+        });
+        requestAnimationFrame(draw);
+    }
+    draw();
+})();
+
+// ── NEWSLETTER ──
+document.getElementById('subscribe-btn').addEventListener('click', function(){
+    const email = document.getElementById('email-input').value.trim();
+    if(email){
+        this.textContent = 'Subscribed!';
+        this.style.background = '#4fc3f7';
+        this.style.color = '#000';
+        alert('You are SUBSCRIBED!! Enjoy with the Newsletter');
+    } else {
+        alert('Please enter your email address.');
+    }
+});
+</script>
+
+<!-- keep your original home.js for any extra functionality -->
+<script src="home.js"></script>
 </body>
-
 </html>
