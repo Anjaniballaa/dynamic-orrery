@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Add an event listener for ExploreButton if needed
     if (ExploreButton) {
         ExploreButton.addEventListener('click', function () {
-        window.location.href = "dynamic-orrery/./solar_system.html";
+        window.location.href = "/dynamic-orrery/solar_system.html";
     });
     }
 
