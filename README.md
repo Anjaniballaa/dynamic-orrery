@@ -1,26 +1,71 @@
-# dynamic_orrery_website
-# Dynamic Orrery Project
-An interactive, real-time orrery that visually simulates planetary motions and orbits with accurate positions and speeds.
+# 🌌 INTERSTELLAR — Dynamic Orrery of Planets
 
-# Features:
-Realistic planetary movements and orbital paths.
-Enhanced animation performance with optimized rendering efficiency.
-Fully responsive design for seamless viewing on all devices.
+> *Where art meets the cosmos, and technology becomes wonder.*
 
-# Technologies:
-HTML
-CSS
-JavaScript
-Three.js
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Explore%20Now-blueviolet?style=for-the-badge)](https://anjaniballaa.github.io/dynamic-orrery/)
+[![NASA Data](https://img.shields.io/badge/Powered%20By-NASA%20APIs-blue?style=for-the-badge)](https://api.nasa.gov/)
+[![Three.js](https://img.shields.io/badge/3D%20Engine-Three.js-black?style=for-the-badge)](https://threejs.org/)
 
-# How to Run
-!. Clone the repository:
-git clone https://github.com/your-username/dynamic-orrery.git
-2. Open home.html in your browser to start the simulation.
+---
 
-Future Improvements
-Add more planets and moons for an expanded solar system.
-Introduce adjustable time scales for faster/slower orbital views.
-Contributing
+## ✨ About
 
-# Feel free to open issues or make pull requests to contribute to this project.
+**Interstellar** is an immersive, real-time 3D solar system simulation — a fusion of **artistic vision and technical precision**. Built for the **NASA Space Apps Challenge**, it transforms raw orbital data into a living, breathing canvas of the cosmos.
+
+This isn't just a visualization. It's where **science becomes art** — every orbit a brushstroke, every planet a pixel of purpose.
+
+---
+
+## 🚀 Features
+
+- 🪐 **9 Planets** rendered in real-time 3D
+- 🌙 **30+ Moons** with accurate orbital mechanics
+- ☄️ Asteroids & Comets with live NASA data
+- 🔭 Interactive planet detail pages — orbital data, NASA imagery
+- 🧠 Built-in Space Quiz to test your cosmic knowledge
+- 📡 Live NASA Open API integration
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| 3D Rendering | Three.js |
+| Frontend | HTML, CSS, JavaScript |
+| Data | NASA Open APIs |
+| Hosting | GitHub Pages |
+
+---
+
+## 🎮 Getting Started
+
+```bash
+# Clone the repository
+git clone https://github.com/anjaniballaa/dynamic-orrery.git
+
+# Open in browser
+open index.html
+```
+
+> No dependencies to install. Pure web — just open and explore.
+
+---
+
+## 🧑‍🚀 Team
+
+Built with curiosity and code by CS students of **SVECW**:
+
+- **B. Anjani** — Developer
+- **K. Abhi Priya** — Developer
+- **V. Rukmini** — Developer
+
+---
+
+## 🌠 Live Demo
+
+👉 [https://anjaniballaa.github.io/dynamic-orrery/](https://anjaniballaa.github.io/dynamic-orrery/)
+
+---
+
+<p align="center"><i>"The cosmos is within us. We are made of star-stuff." — Carl Sagan</i></p>
