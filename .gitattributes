@@ -1,0 +1,4 @@
+.sfdx/ linguist-vendored
+*.sdfc linguist-vendored
+*.cls linguist-vendored
+*.trigger linguist-vendored
