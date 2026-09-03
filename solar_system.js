@@ -14,7 +14,8 @@ async function loadJSONData(url) {
     return response.json();
 }
 let planetData = {};
-loadJSONData('https://data.nasa.gov/resource/b67r-rgxc.json')
+
+loadJSONData('https://ssd-api.jpl.nasa.gov/sbdb_query.api?fields=full_name,e,a,i,om,w,q&sb-class=COM&limit=50')
     .then(data => {
         console.log(data); 
         planetData = data; 
@@ -24,12 +25,15 @@ loadJSONData('https://data.nasa.gov/resource/b67r-rgxc.json')
     });
 
 
+// AFTER
 async function fetchCometData() {
-    const response = await fetch('https://data.nasa.gov/resource/b67r-rgxc.json');
-    const comets = await response.json();
-    return comets;
+    const response = await fetch(
+        'https://ssd-api.jpl.nasa.gov/sbdb_query.api?fields=full_name,e,a,i,om,w,q&sb-class=COM&limit=50'
+    );
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    const data = await response.json();
+    return data.data.map(row => ({ comet_name: row[0], e: row[1], a: row[2] }));
 }
-
 
 function displayComets(comets) {
     comets.forEach(comet => {
@@ -42,10 +46,6 @@ function displayComets(comets) {
         scene.add(cometMesh);
 
         const cometName = comet.comet_name; 
-        const textGeometry = new THREE.TextGeometry(cometName, { font: yourFont, size: 0.5, height: 0.1 });
-        const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-        const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-
         textMesh.position.set(cometMesh.position.x, cometMesh.position.y + 0.5, cometMesh.position.z);
         scene.add(textMesh);
     });
@@ -91,7 +91,8 @@ const Uranus_MirandaTexture = textureLoader.load("image/Uranus_Miranda.jpg");
 const Uranus_ArielTexture = textureLoader.load("image/Uranus_Ariel.jpg");
 const Neptune_TritonTexture = textureLoader.load("image/Neptune_triton.jpg");
 const Neptune_GalateaTexture = textureLoader.load("image/Neptune_Galatea.jpg");
-const pluto_charonTexture = textureLoader.load("image/pluto_CharonTexture.jpg");
+// AFTER (placeholder until you add a real file to /image)
+const pluto_charonTexture = textureLoader.load("image/8k_moon.jpg");
 
 
 const scene = new THREE.Scene();
@@ -382,9 +383,6 @@ function updatePlanetName() {
     const intersects = raycaster.intersectObjects(planetsWithSun);
 
     const planetNameDiv = document.getElementById('planet-name');
-    
-    // Log intersects to verify intersection
-    console.log('Intersects:', intersects);
 
     if (intersects.length > 0) {
         const planetIndex = planetsWithSun.findIndex(p => p === intersects[0].object);
