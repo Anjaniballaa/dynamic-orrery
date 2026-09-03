@@ -15,7 +15,8 @@ async function loadJSONData(url) {
 }
 let planetData = {};
 
-loadJSONData('https://ssd-api.jpl.nasa.gov/sbdb_query.api?fields=full_name,e,a,i,om,w,q&sb-class=COM&limit=50')
+// AFTER
+loadJSONData('data/comets.json')
     .then(data => {
         console.log(data); 
         planetData = data; 
@@ -27,14 +28,10 @@ loadJSONData('https://ssd-api.jpl.nasa.gov/sbdb_query.api?fields=full_name,e,a,i
 
 // AFTER
 async function fetchCometData() {
-    const response = await fetch(
-        'https://ssd-api.jpl.nasa.gov/sbdb_query.api?fields=full_name,e,a,i,om,w,q&sb-class=COM&limit=50'
-    );
+    const response = await fetch('data/comets.json');
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-    const data = await response.json();
-    return data.data.map(row => ({ comet_name: row[0], e: row[1], a: row[2] }));
+    return response.json();
 }
-
 function displayComets(comets) {
     comets.forEach(comet => {
         const geometry = new THREE.SphereGeometry(0.1, 16, 16);
